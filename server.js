@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const passport = require('passport');
 
 const users = require('./routes/api/users');
 const profiles = require('./routes/api/profiles');
@@ -8,6 +10,11 @@ const posts = require('./routes/api/posts');
 
 
 const app = express();
+
+// Body Parser Middleware
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 //DB Config
 const db = require('./config/keys').mongoURI;
@@ -18,7 +25,14 @@ mongoose
     .then( () => console.log('MongoDB Connected Successfully'))
     .catch(err => console.log(err));
 
-app.get('/', (req, res) => res.send('Hello!'));
+//Passport Middleware
+app.use(passport.initialize()); //session 3 lecture 13
+
+// Passport Config
+
+require('./config/passport')(passport);
+
+
 
 //Use Routes
 
