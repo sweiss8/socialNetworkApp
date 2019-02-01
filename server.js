@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 
 const users = require('./routes/api/users');
-const profiles = require('./routes/api/profiles');
+const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
+const events = require('./routes/api/events');
+const matches = require('./routes/api/matches')
 
 
 
@@ -37,9 +39,11 @@ require('./config/passport')(passport);
 //Use Routes
 
 app.use('/api/users', users);
-app.use('/api/profiles', profiles);
+app.use('/api/profile', profile);
 app.use('/api/posts', posts);
+app.use('/api/events', events);
+app.use('/api/matches', matches);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server running on port ${port}!`));
