@@ -1,7 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions/authActions';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class Login extends React.Component {
-    constructor () {
+    constructor() {
         super();
         this.state = {
             email: '',
@@ -11,9 +15,27 @@ class Login extends React.Component {
         };
 
     }
+    // Prevents logged in users from accessing login
+    componentDidMount() {
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push('/dashboard');
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        //redirects to dashboard after login, if authenticated
+        if (nextProps.auth.isAuthenticated) {
+            this.props.history.push('/dashboard')
+        }
+
+        if (nextProps.errors) {
+            this.setState({ errors: nextProps.errors })
+        }
+    }
+
 
     onChange = event => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         this.setState({
             [name]: value
         })
@@ -22,15 +44,17 @@ class Login extends React.Component {
     onSubmit = event => {
         event.preventDefault();
 
-        const user = {
+        const userData = {
             email: this.state.email,
             password: this.state.password
 
         };
-        console.log(user)
+        this.props.loginUser(userData)
     }
 
     render() {
+        const { errors } = this.state;
+
         return (
             <div>
                 <div className="login">
@@ -40,24 +64,23 @@ class Login extends React.Component {
                                 <h1 className="display-4 text-center">Log In</h1>
                                 <p className="lead text-center">Sign in to your DevConnector account</p>
                                 <form onSubmit={this.onSubmit}>
-                                    <div className="form-group">
-                                        <input 
-                                        type="email" 
-                                        className="form-control form-control-lg"
-                                         placeholder="Email Address"
-                                         name="email"
-                                         value={this.state.email}
-                                         onChange={this.onChange} />
-                                    </div>
-                                    <div className="form-group">
-                                        <input 
-                                            type="password"
-                                             className="form-control form-control-lg" 
-                                             placeholder="Password"
-                                             name="password" 
-                                             value={this.state.password}
-                                             onChange={this.onChange} />
-                                    </div>
+                                    <TextFieldGroup
+                                        placeholder="Email Address"
+                                        name="email"
+                                        type="email"
+                                        value={this.state.email}
+                                        onChange={this.onChange}
+                                        error={errors.email}
+                                    />
+
+                                    <TextFieldGroup
+                                        placeholder="Password"
+                                        name="password"
+                                        type="password"
+                                        value={this.state.password}
+                                        onChange={this.onChange}
+                                        error={errors.password}
+                                    />
                                     <input type="submit" className="btn btn-info btn-block mt-4" />
                                 </form>
                             </div>
@@ -69,4 +92,15 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+Login.propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+    errors: state.errors
+})
+
+export default connect(mapStateToProps, { loginUser })(Login);
