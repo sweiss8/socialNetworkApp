@@ -63,7 +63,7 @@ class Register extends React.Component {
 
         const { errors } = this.state;
 
-        const { user } = this.props.auth;
+        // const { user } = this.props.auth;
 
 
 

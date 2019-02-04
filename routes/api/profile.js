@@ -24,7 +24,7 @@ const User = require('../../models/User');
 
 //Now instead of using "app.get" we can use "router.get()"
 
-//this route goes to localhost:3000/api/users/test. We don't have to include that whole string because it is taken care of in the server.js variables.
+//this route goes to localhost:5000/api/users/test. We don't have to include that whole string because it is taken care of in the server.js variables.
 
 
 // @route   GET api/profile/test
@@ -38,7 +38,7 @@ router.get('/test', (req, res) => res.json({ msg: 'Profile Works'}));
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     const errors = {};
     Profile.findOne({ user: req.user.id })
-        .populate('user', ['firstName', 'avatar'])
+        .populate('user', ['firstName', 'lastName', 'avatar'])
         .then(profile => {
             if(!profile) {
                 errors.noprofile = 'There is no profile for this user';
@@ -57,7 +57,7 @@ router.get('/user/:user_id', (req, res) => {
     const errors = {};
 
     Profile.findOne({ user: req.params.user_id })
-    .populate('user', ['firstName', 'avatar'])
+    .populate('user', ['firstName', 'lastName', 'avatar'])
     .then(profile => {
         if(!profile) {
             errors.noprofile = 'There is no profile for this user.';
@@ -76,7 +76,7 @@ router.get('/all', (req, res) => {
     const errors = {};
 
     Profile.find()
-    .populate('user', ['firstName', 'avatar'])
+    .populate('user', ['firstName', 'lastName', 'avatar'])
     .then(profiles => {
         if(!profiles) {
             errors.noprofile = 'There are no profiles.';
@@ -96,7 +96,7 @@ router.get('/handle/:handle', (req, res) => {
     const errors = {};
 
     Profile.findOne({ handle: req.params.handle })
-    .populate('user', ['firstName', 'avatar'])
+    .populate('user', ['firstName', 'lastName', 'avatar'])
     .then(profile => {
         if(!profile) {
             errors.noprofile = 'There is no profile for this user.';
@@ -220,7 +220,7 @@ router.post("/education", passport.authenticate('jwt', {session: false }), (req,
         const newEdu = {
             school: req.body.school,
             degree: req.body.degree,
-            fieldOfStudy: req.body.fieldOfStudy,
+            fieldofstudy: req.body.fieldofstudy,
             from: req.body.from,
             to: req.body.to,
             current: req.body.current,
