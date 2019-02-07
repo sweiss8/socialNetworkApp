@@ -20,7 +20,7 @@ class Profiles extends Component {
         } else {
             if (profiles.length > 0) {
                profileItems = profiles.map(profile => (
-                <ProfileItem key={profile._id} profile={profile}/>
+                <ProfileItem key={profile._id} profile={profile} />
                ))
               
             } else {

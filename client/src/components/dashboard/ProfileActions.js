@@ -9,13 +9,14 @@ const ProfileActions = () => {
                 <i className="fas fa-user-circle text-info mr-1"></i> Edit Profile
             </Link>
             <Link to="/add-experience" className="btn btn-light">
-                <i className="fab fa-black-tie text-info mr-1"></i>
-                Add Experience
+            <i className="fas fa-user-friends text-info mr-1"></i>
+                Add Team
             </Link>
-            <Link to="/add-education" className="btn btn-light">
-                <i className="fas fa-graduation-cap text-info mr-1"></i>
-                Add Education
-            </Link>
+            {/* <!-- Button trigger modal --> */}
+            <button type="button" className="btn btn-light" data-toggle="modal" data-target="#eventModal">
+            <i className="fas fa-calendar-check text-info mr-1"></i>
+                Add Event
+            </button>
         </div>
 
     )

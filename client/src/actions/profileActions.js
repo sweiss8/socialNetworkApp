@@ -6,7 +6,9 @@ import {
     GET_ERRORS, 
     CLEAR_CURRENT_PROFILE, 
     SET_CURRENT_USER, 
-    GET_PROFILES} from './types';
+    GET_PROFILES
+
+} from './types';
 
 
 
@@ -58,6 +60,7 @@ export const createProfile = (profileData, history) => dispatch => {
             })
         );
 }
+
 
 // Add experience
 export const addExperience = (expData, history) => dispatch => {

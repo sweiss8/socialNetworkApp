@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {withRouter} from 'react-router-dom'; 
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
@@ -15,12 +15,10 @@ class CreateProfile extends Component {
         this.state = {
             displaySocialInputs: false,
             handle: '',
-            company: '',
+            team: '',
             website: '',
             location: '',
-            status: '',
-            skills: '',
-            githubusername: '',
+            division: '',
             bio: '',
             twitter: '',
             facebook: '',
@@ -34,8 +32,8 @@ class CreateProfile extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.errors) {
-            this.setState({errors: nextProps.errors});
+        if (nextProps.errors) {
+            this.setState({ errors: nextProps.errors });
         }
     }
 
@@ -50,12 +48,10 @@ class CreateProfile extends Component {
         event.preventDefault();
         const profileData = {
             handle: this.state.handle,
-            company: this.state.company,
+            team: this.state.team,
             website: this.state.website,
             location: this.state.location,
-            status: this.state.status,
-            skills: this.state.skills,
-            githubusername: this.state.githubusername,
+            division: this.state.division,
             bio: this.state.bio,
             twitter: this.state.twitter,
             facebook: this.state.facebook,
@@ -69,7 +65,7 @@ class CreateProfile extends Component {
         this.props.createProfile(profileData, this.props.history)
     }
 
-    
+
 
     render() {
         const { errors, displaySocialInputs } = this.state;
@@ -132,17 +128,16 @@ class CreateProfile extends Component {
 
         // Select options for "Status" field
         const options = [
-            { label: '* Select Professional Status', value: 0 },
-            { label: 'Junior Developer', value: 'Junior Developer' },
-            { label: 'Developer', value: 'Developer' },
-            { label: 'Senior Developer', value: 'Senior Developer' },
-            { label: 'Manager', value: 'Manager' },
-            { label: 'Student or Learning', value: 'Student or Learning' },
-            { label: 'Instructor or Teacher', value: 'Instructor or Teacher' },
-            { label: 'Intern', value: 'Intern' },
-            { label: 'Other', value: 'Other' }
-        ];
+            { label: '* Divison', value: 0 },
+            { label: 'Pro', value: 'Pro' },
+            { label: 'Divison 1', value: 'Divison 1' },
+            { label: 'Division 2', value: 'Division 2' },
+            { label: 'Division 3 ', value: 'Division3' },
+            { label: 'Division 4', value: 'Division 4' },
+            { label: 'Division 5', value: 'Division 5' },
+            { label: 'Beginner', value: 'Beginner' },
 
+        ];
         return (
             <div className="create-profile">
                 <div className="container">
@@ -160,22 +155,23 @@ class CreateProfile extends Component {
                                     error={errors.handle}
                                     info="A unique handle for your profile URL. For example, your full name, company name, nickname, etc. "
                                 />
+
+                                <TextFieldGroup
+                                    placeholder="Team"
+                                    name="team"
+                                    value={this.state.team}
+                                    onChange={this.onChange}
+                                    error={errors.team}
+                                    info="Your current team (if any)"
+                                />
+
                                 <SelectListGroup
-                                    // placeholder="Status"
-                                    name="status"
-                                    value={this.state.status}
+                                    name="division"
+                                    value={this.state.division}
                                     onChange={this.onChange}
                                     options={options}
-                                    error={errors.status}
-                                    info="Give us an idea of where you are at in your career"
-                                />
-                                <TextFieldGroup
-                                    placeholder="Company"
-                                    name="company"
-                                    value={this.state.company}
-                                    onChange={this.onChange}
-                                    error={errors.company}
-                                    info="Your own company or current employer "
+                                    error={errors.division}
+                                // info="Give us an idea of where you are at in your career"
                                 />
                                 <TextFieldGroup
                                     placeholder="Website"
@@ -193,22 +189,8 @@ class CreateProfile extends Component {
                                     error={errors.location}
                                     info="City or city & state suggested (e.g. Denver, CO)"
                                 />
-                                <TextFieldGroup
-                                    placeholder="* Skills"
-                                    name="skills"
-                                    value={this.state.skills}
-                                    onChange={this.onChange}
-                                    error={errors.skills}
-                                    info="Please use comma separated values (e.g. HTML,CSS,Javascript,PHP) "
-                                />
-                                <TextFieldGroup
-                                    placeholder="Github Username"
-                                    name="githubusername"
-                                    value={this.state.githubusername}
-                                    onChange={this.onChange}
-                                    error={errors.githubusername}
-                                    info="Include your Github username to have your latest repos displayed"
-                                />
+
+
                                 <TextAreaFieldGroup
                                     placeholder="Short Bio"
                                     name="bio"
@@ -220,15 +202,15 @@ class CreateProfile extends Component {
 
                                 <div className="mb-3">
                                     <button
-                                    type="button"
-                                     className="btn btn-light" onClick={() => {
-                                        this.setState(prevState => ({
-                                            displaySocialInputs: !prevState.displaySocialInputs
-                                        }))
-                                    }}>
+                                        type="button"
+                                        className="btn btn-light" onClick={() => {
+                                            this.setState(prevState => ({
+                                                displaySocialInputs: !prevState.displaySocialInputs
+                                            }))
+                                        }}>
                                         Add Social Network Links
                                 </button>
-                                
+
                                     <span className="text-muted"> Optional</span>
 
                                 </div>
@@ -244,8 +226,7 @@ class CreateProfile extends Component {
                     </div>
                 </div>
             </div>
-            // <TextFieldGroup 
-            //     />
+
         )
 
 

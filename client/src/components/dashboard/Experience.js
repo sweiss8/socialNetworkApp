@@ -15,8 +15,7 @@ onDeleteClick(id) {
     render() {
         const experience = this.props.experience.map(exp => (
             <tr key={exp._id}>
-                <td>{exp.company}</td>
-                <td>{exp.title}</td>
+                <td>{exp.team}</td>
                 <td>
                     <Moment format="YYYY/MM/DD">{exp.from}</Moment> - {exp.to === null ? ('Present') : (<Moment format="YYYY/MM/DD">{exp.to}</Moment>) }
                 </td>
@@ -26,13 +25,12 @@ onDeleteClick(id) {
         ))
         return (
             <div >
-                <h4 className="mb-2">Experience Credentials</h4>
+                <h4 className="mb-2">Teams</h4>
                 <table className="table">
                 <tbody>
                     <tr>
-                        <th>Company</th>
-                        <th>Title</th>
-                        <th>Years</th>
+                        <th>Team</th>
+                        <th>Dates</th>
                         <th></th>
                     </tr>
                     
@@ -40,6 +38,8 @@ onDeleteClick(id) {
                     </tbody>
                 </table>
             </div>
+
+            
         )
     }
 }

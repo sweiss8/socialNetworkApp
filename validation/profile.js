@@ -9,8 +9,8 @@ module.exports = function validateProfileInput(data) {
 
 
     data.handle = !isEmpty(data.handle) ? data.handle : "";
-    data.status = !isEmpty(data.status) ? data.status : "";
-    data.skills = !isEmpty(data.skills) ? data.skills : "";
+    data.division = !isEmpty(data.division) ? data.division : "";
+ 
 
 
 
@@ -25,13 +25,10 @@ module.exports = function validateProfileInput(data) {
         errors.handle = 'Profile handle is required.'
     }
 
-    if(Validator.isEmpty(data.status)) {
-        errors.status = 'Status field is required.'
+    if(Validator.isEmpty(data.division)) {
+        errors.division = 'Division field is required.'
     }
 
-    if(Validator.isEmpty(data.skills)) {
-        errors.skills = 'Skills field is required.'
-    }
 
     if(!isEmpty(data.website)){
         if(!Validator.isURL(data.website)) {

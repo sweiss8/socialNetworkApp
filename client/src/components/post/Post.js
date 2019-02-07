@@ -19,6 +19,8 @@ class Post extends Component {
 
         let postContent;
 
+
+
         if(post === null || loading || Object.keys(post).length === 0) {
             postContent = <Spinner/>
         } else {

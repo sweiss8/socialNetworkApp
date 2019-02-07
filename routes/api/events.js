@@ -35,25 +35,24 @@ router.get('/test', (req, res) => res.json({ msg: 'Events Works' }));
 // @desc    Create new event  
 //access    Private
 
-router.post("/", passport.authenticate('jwt', { session: false }), (req, res) => {
-    // const { errors, isValid } = validatePostInput(req.body);
 
-    // if (!isValid) {
-    //     return res.status(400).json(errors);
-    // }
-    const newEvent = new Events({
-        user: req.user.id,
-        date: req.body.date,
-        type: req.body.type,
-        locationorfield: req.body.locationorfield,
-        format: req.body.format,
-        division: req.body.division,
-        league: req.body.league,
+router.post('/', passport.authenticate('jwt', {session: false}), (req, res) =>{
 
-    });
+    Events.create(req.body)
+    
+    .then(function(dbevent) {
+        return Profile.findOneAndUpdate({user: req.user.id}, { $push: {  events: { $each:[dbevent._id], $position: 0} }}, {new: true}).populate('Events');
+         
+    })
+    .then(event => {
+        return res.json(event)
+    })
+    .catch(err => res.status(404).json({ usernotfound: "No user found."}))
 
-    newEvent.save().then(post => res.json(post));
 });
+
+
+
 
 // @route   GET api/events/
 // @desc    Get all events 
@@ -74,6 +73,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 
 router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
     Events.findById(req.params.id)
+        .populate('matches')
         .then(events => res.json(events))
         .catch(err => res.status(404).json({ noeventfound: "No event found with that ID." }));
 })

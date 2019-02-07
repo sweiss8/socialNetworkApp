@@ -25,6 +25,7 @@ import Profile from './components/profile/Profile';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
 import NotFound from './components/not-found/NotFound';
+import EventHome from './components/matches/EventHome';
 
 
 import './App.css';
@@ -100,6 +101,12 @@ class App extends Component {
                   exact path="/post/:id"
                   component={Post} />
               </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact path="/event/:id"
+                  component={EventHome} />
+              </Switch>
+
               <Route exact path="/not-found" component={NotFound} />
             </div>
 

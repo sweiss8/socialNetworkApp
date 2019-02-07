@@ -39,6 +39,7 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     const errors = {};
     Profile.findOne({ user: req.user.id })
         .populate('user', ['firstName', 'lastName', 'avatar'])
+        .populate('events')
         .then(profile => {
             if(!profile) {
                 errors.noprofile = 'There is no profile for this user';
@@ -127,17 +128,12 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     const profileFields = {};
     profileFields.user = req.user.id;
     if(req.body.handle) profileFields.handle = req.body.handle;
-    if(req.body.company) profileFields.company = req.body.company;
+    if(req.body.team) profileFields.team = req.body.team;
     if(req.body.website) profileFields.website = req.body.website;
     if(req.body.location) profileFields.location = req.body.location;
     if(req.body.bio) profileFields.bio = req.body.bio;
-    if(req.body.status) profileFields.status = req.body.status;
-    if(req.body.githubusername) profileFields.githubusername = req.body.githubusername;
+    if(req.body.division) profileFields.division = req.body.division;
 
-    //Skills split into an array
-    if(typeof req.body.skills !== 'undefined') {
-        profileFields.skills = req.body.skills.split(',');
-    }
 
     //Social Media
     profileFields.social = {};
@@ -176,23 +172,20 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 
 router.post("/experience", passport.authenticate('jwt', {session: false }), (req, res) => {
 
-    const { errors, isValid } = validateExperienceInput(req.body);
+    // const { errors, isValid } = validateExperienceInput(req.body);
 
-    // Check Validation
-    if(!isValid) {
-        // Return any errors with 400 status
-        return res.status(400).json(errors);
-    }
+    // // Check Validation
+    // if(!isValid) {
+    //     // Return any errors with 400 status
+    //     return res.status(400).json(errors);
+    // }
     Profile.findOne({ user: req.user.id })
     .then(profile => {
         const newExp = {
-            title: req.body.title,
-            company: req.body.company,
-            location: req.body.location,
+            team: req.body.team,
             from: req.body.from,
             to: req.body.to,
-            current: req.body.current,
-            description: req.body.description
+            current: req.body.current
         }
 
         // Unshift to experience array

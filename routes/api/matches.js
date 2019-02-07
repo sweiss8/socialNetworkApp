@@ -19,7 +19,7 @@ const Profile = require('../../models/Profile')
 const User = require('../../models/User');
 
 // Validation 
-const validatePostInput = require("../../validation/post")
+const validatePointInput = require("../../validation/points")
 
 //Now instead of using "app.get" we can use "router.get()"
 
@@ -43,7 +43,7 @@ router.post('/:event_id', passport.authenticate('jwt', {session: false}), (req, 
     Match.create(req.body)
     
     .then(function(dbmatch) {
-        return Events.findOneAndUpdate({_id: req.params.event_id}, { $push: { matches: dbmatch._id }}, {new: true}).populate('matches', '_id');
+        return Events.findOneAndUpdate({_id: req.params.event_id}, { $push: { matches: dbmatch._id }}, {new: true}).populate('matches');
          
     })
     .then(event => {
@@ -59,28 +59,43 @@ router.post('/:event_id', passport.authenticate('jwt', {session: false}), (req, 
 // access   Private
 
 router.post('/point/:id', passport.authenticate('jwt', {session: false}), (req, res) =>{
-    // const { errors, isValid } = validatePostInput(req.body);
+    const { errors, isValid } = validatePointInput(req.body);
 
-    // if (!isValid) {
-    //     return res.status(400).json(errors);
-    // }
-    console.log(req.params.id)
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+    // console.log(req.params.id)
+
+    
 
     Match.findById(req.params.id)
     .then(match => {
+
+    //elim total
+    const pointTOTE = parseInt(req.body.e1) + parseInt(req.body.e2) + parseInt(req.body.e3) + parseInt(req.body.e4) + parseInt(req.body.e5);
+
+
+    //hit total
+    const pointTOTH = parseInt(req.body.h1) + parseInt(req.body.h2) + parseInt(req.body.h3) + parseInt(req.body.h4) + parseInt(req.body.h5);
+
+    //net final
+    var netFinal = pointTOTE - pointTOTH;
+
+
         const newPoint = {
             result: req.body.result,
-            tote: req.body.tote,
+            netrtg: netFinal,
+            tote: pointTOTE,
             e1: req.body.e1,
             e2: req.body.e2,
             e3: req.body.e3,
-            e4: req.body.e1,
+            e4: req.body.e4,
             e5: req.body.e5,
             eob: req.body.eob,
             eib: req.body.eib,
             eom: req.body.eom,
             ebkr: req.body.ebkr,
-            toth: req.body.toth,
+            toth: pointTOTH,
             h1: req.body.h1,
             h2: req.body.h2,
             h3: req.body.h3,
@@ -94,11 +109,21 @@ router.post('/point/:id', passport.authenticate('jwt', {session: false}), (req, 
 
 
         // Add to points array
-        match.points.unshift(newPoint);
+        match.points.push(newPoint);
 
         //Save
+        match.save().then(match => {
+            const matchtote = 
 
-        match.save().then(match => res.json(match))
+            Match.aggregate({_id: points.tote}, { $push: { matches: dbmatch._id }}, {new: true}).populate('matches');
+
+        }
+           
+
+            
+
+        )
+            // res.json(match))
     })
     .catch(err => res.status(404).json({ matchnotfound: "No match found."}))
 })

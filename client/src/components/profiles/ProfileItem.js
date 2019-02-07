@@ -25,16 +25,25 @@ class ProfileItem extends Component {
                         </Link>
                     </div>
                     <div className="col-md-4 d-none d-md-block">
-                        <h4>Skill Set</h4>
-                        <ul className="list-group">
-                            {/* Gets first four of the array, then maps through */}
-                            {profile.skills.slice(0, 4).map((skill, index) => (
-                                <li key={index} className="list-group-item">
-                                    <i className="fa fa-check pr-1" />
-                                    {skill}
+                        <h4>Stats:</h4>
+                        <ul className="list-group text-center">
 
-                                </li>
-                            ))}
+                            <li className="list-group-item">
+                                {/* <i className="fa fa-check pr-1" /> */}
+                                <span><strong>NET:</strong> 1.78</span>
+                            </li>
+                            <li className="list-group-item">
+                                {/* <i className="fa fa-check pr-1" /> */}
+                                <span><strong>EPP:</strong> 2.78</span>
+                            </li>
+                            <li className="list-group-item">
+                                {/* <i className="fa fa-check pr-1" /> */}
+                                <span><strong>OPP:</strong> 1.00</span>
+                            </li>
+                            <li className="list-group-item">
+                                {/* <i className="fa fa-check pr-1" /> */}
+                                <span><strong>PP:</strong> 100</span>
+                            </li>
                         </ul>
                     </div>
                 </div>

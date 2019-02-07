@@ -12,7 +12,7 @@ const ProfileSchema = new Schema({
         required: true,
         max: 40
     },
-    company: {
+    team: {
         type: String,
     },
     website: {
@@ -21,32 +21,25 @@ const ProfileSchema = new Schema({
     location: {
         type: String
     },
-    status: {
+    division: {
         type: String,
         required: true
     },
-    skills: {
-        type: [String],
-        required: true
-    },
+
     bio: {
         type: String
     },
-    githubusername: {
-        type: String
-    },
+    events: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Events"
+        }
+    ],
     experience: [
         {
-            title: {
+            team: {
                 type: String,
                 required: true
-            },
-            company: {
-                type: String,
-                required: true
-            },
-            location: {
-                type: String
             },
             from: {
                 type: Date,
@@ -58,9 +51,6 @@ const ProfileSchema = new Schema({
             current: {
                 type: Boolean,
                 default: false
-            },
-            description: {
-                type: String
             }
         }
     ],

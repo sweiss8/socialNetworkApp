@@ -11,13 +11,10 @@ class AddExperience extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            company: '',
-            title: '',
-            location: '',
+            team: '',
             from: '',
             to: '',
             current: false,
-            description: '',
             errors: {},
             disabled: false
         }
@@ -42,13 +39,10 @@ class AddExperience extends Component {
         event.preventDefault();
         
         const expData ={
-            company: this.state.company,
-            title: this.state.title,
-            location: this.state.location,
+            team: this.state.team,
             from: this.state.from,
             to: this.state.to,
             current: this.state.current,
-            description: this.state.description
         }
 
         this.props.addExperience(expData, this.props.history);
@@ -82,32 +76,18 @@ class AddExperience extends Component {
                             <Link to="/dashboard" className="btn btn-light">
                                 Go Back
             </Link>
-                            <h1 className="display-4 text-center">Add Experience</h1>
-                            <p className="lead text-center">Add any current or previous job experience.</p>
+                            <h1 className="display-4 text-center">Add Team</h1>
+                            <p className="lead text-center">Add any current or previous teams you've played on</p>
                             <small className="d-block pb-3">* = required field</small>
                             <form onSubmit={this.onSubmit}>
                                 <TextFieldGroup
-                                    placeholder="* Company"
-                                    name="company"
-                                    value={this.state.company}
+                                    placeholder="* Team Name"
+                                    name="team"
+                                    value={this.state.team}
                                     onChange={this.onChange}
-                                    error={errors.company}
-                                />
-                                <TextFieldGroup
-                                    placeholder="* Job Title"
-                                    name="title"
-                                    value={this.state.title}
-                                    onChange={this.onChange}
-                                    error={errors.title}
+                                    error={errors.team}
                                 />
 
-                                <TextFieldGroup
-                                    placeholder="Location"
-                                    name="location"
-                                    value={this.state.location}
-                                    onChange={this.onChange}
-                                    error={errors.location}
-                                />
                                 <h6>From Date</h6>
                                 <TextFieldGroup
                                     name="from"
@@ -135,17 +115,10 @@ class AddExperience extends Component {
                                     id="current"
                                     />
                                     <label htmlFor="current" className="form-check-label"> 
-                                    Current Job
+                                    Current Team
                                     </label>
                                 </div>
-                                <TextAreaFieldGroup
-                                placeholder="Job Description"
-                                    name="description"
-                                    value={this.state.description}
-                                    onChange={this.onChange}
-                                    error={errors.description}
-                                    info="Tell us about the position"
-                                />
+
                                 <input type="submit" value="Submit" className="btn btn-info btn-block mt-4"/>
 
                             </form>
