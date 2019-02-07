@@ -7,7 +7,7 @@ import {GET_ERRORS, SET_CURRENT_USER} from './types';
 // Register User
 
 // this.props.history.push('/dashboard') is how you can redirect from within a component. 
-
+//Test
 //to do it here:
     //1 go to component in question and import import {withRouter} from 'react-router-dom';
     //2 wrap last variable in export in withrouter like this: (withRouter(Register))
